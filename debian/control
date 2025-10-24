@@ -9,19 +9,20 @@ Rules-Requires-Root: no
 
 Package: distiller-genesis
 Architecture: all
-Depends: ${misc:Depends}
-Recommends: distiller-cm5-sdk,
-            python3,
-            python3-pip,
-            git,
-            build-essential
-Suggests: distiller-examples,
-          distiller-docs
+Depends: ${misc:Depends},
+         distiller-sdk,
+         distiller-services,
+         distiller-update,
+         distiller-telemetry,
+         distiller-cc,
+         claude-code-web-manager,
+         pamir-ai-sam-dkms,
+         pamir-ai-soundcard-dkms,
+         distiller-migrator,
+         distiller-test-harness
 Description: Genesis meta-package for Distiller CM5 platform
- This meta-package provides a convenient way to install various components
- for the Distiller CM5 platform. Being a meta-package, it primarily serves
- to pull in recommended dependencies.
+ This meta-package installs all required components for the Distiller CM5
+ platform, including hardware drivers, system services, and management tools.
  .
- Removing this package will not affect the installed components, which can
- be managed independently. This package is useful for initial setup and
- ensuring a consistent baseline installation.
+ This package ensures a complete and consistent installation of the Distiller
+ software stack on the CM5 hardware platform.
