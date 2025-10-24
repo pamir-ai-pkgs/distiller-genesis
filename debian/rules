@@ -1,0 +1,28 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	# Meta-package: nothing to install
+	dh_auto_install
+
+override_dh_auto_build:
+	# Meta-package: nothing to build
+	dh_auto_build
+
+override_dh_auto_test:
+	# Meta-package: no tests
+	dh_auto_test
+
+override_dh_installdocs:
+	# Install documentation if present
+	dh_installdocs
+
+override_dh_installchangelogs:
+	# Install changelog if present
+	dh_installchangelogs

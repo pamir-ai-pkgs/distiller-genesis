@@ -1,0 +1,27 @@
+Source: distiller-genesis
+Section: metapackages
+Priority: optional
+Maintainer: Distiller Team <maintainer@distiller.local>
+Build-Depends: debhelper-compat (= 14)
+Standards-Version: 4.7.2
+Homepage: https://distiller.local
+Rules-Requires-Root: no
+
+Package: distiller-genesis
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: distiller-cm5-sdk,
+            python3,
+            python3-pip,
+            git,
+            build-essential
+Suggests: distiller-examples,
+          distiller-docs
+Description: Genesis meta-package for Distiller CM5 platform
+ This meta-package provides a convenient way to install various components
+ for the Distiller CM5 platform. Being a meta-package, it primarily serves
+ to pull in recommended dependencies.
+ .
+ Removing this package will not affect the installed components, which can
+ be managed independently. This package is useful for initial setup and
+ ensuring a consistent baseline installation.

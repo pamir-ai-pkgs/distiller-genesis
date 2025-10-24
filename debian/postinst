@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+# Post-installation script for distiller-genesis
+# Meta-package - minimal post-installation tasks
+
+case "$1" in
+    configure)
+        echo "distiller-genesis meta-package installed"
+        echo "Recommended packages can be installed independently as needed"
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

@@ -1,0 +1,10 @@
+# Lintian overrides for distiller-genesis
+
+# Meta-packages typically have no binaries
+distiller-genesis: empty-binary-package
+
+# Meta-packages don't need upstream changelog
+distiller-genesis: no-upstream-changelog
+
+# Meta-package is architecture-independent
+distiller-genesis: package-contains-no-arch-dependent-files
