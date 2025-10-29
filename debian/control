@@ -1,28 +1,62 @@
 Source: distiller-genesis
 Section: metapackages
 Priority: optional
-Maintainer: Distiller Team <maintainer@distiller.local>
-Build-Depends: debhelper-compat (= 14)
-Standards-Version: 4.7.2
-Homepage: https://distiller.local
+Maintainer: PamirAI Incorporated <founders@pamir.ai>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.0
+Homepage: https://github.com/pamir-ai-pkgs/distiller-genesis
+Vcs-Git: https://github.com/pamir-ai-pkgs/distiller-genesis.git
+Vcs-Browser: https://github.com/pamir-ai-pkgs/distiller-genesis
 Rules-Requires-Root: no
 
-Package: distiller-genesis
+Package: distiller-genesis-common
 Architecture: all
-Depends: ${misc:Depends},
-         distiller-sdk,
-         distiller-services,
-         distiller-update,
-         distiller-telemetry,
-         distiller-cc,
-         claude-code-web-manager,
-         pamir-ai-sam-dkms,
-         pamir-ai-soundcard-dkms,
-         distiller-migrator,
-         distiller-test-harness
-Description: Genesis meta-package for Distiller CM5 platform
- This meta-package installs all required components for the Distiller CM5
- platform, including hardware drivers, system services, and management tools.
+Depends: ${misc:Depends}
+Recommends: distiller-sdk (>= 3.0.0),
+            distiller-services (>= 3.0.0),
+            distiller-update (>= 3.0.0),
+            distiller-telemetry (>= 4.0.0),
+            distiller-cc (>= 4.0.0),
+            claude-code-web-manager,
+            pamir-ai-sam-dkms,
+            distiller-platform-update
+Suggests: distiller-test-harness (>= 1.0.0)
+Description: Common meta-package for Distiller platform
+ This meta-package provides the base Distiller software stack that works
+ across all supported hardware platforms (Raspberry Pi CM5, Radxa Zero 3/3W,
+ ArmSom CM5 IO).
  .
- This package ensures a complete and consistent installation of the Distiller
- software stack on the CM5 hardware platform.
+ Includes: SDK, system services, management tools, and universal hardware
+ drivers (SAM controller).
+ .
+ For a complete platform installation, install the appropriate platform-specific
+ meta-package: distiller-genesis-cm5 or distiller-genesis-rockchip.
+
+Package: distiller-genesis-cm5
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: distiller-genesis-common (= ${binary:Version}),
+            pamir-ai-soundcard-dkms
+Description: Complete Distiller stack for Raspberry Pi CM5
+ Platform-specific meta-package for Raspberry Pi Compute Module 5 (BCM2712).
+ .
+ Depends on distiller-genesis-common and adds CM5-specific hardware drivers:
+  - pamir-ai-soundcard-dkms: TLV320AIC3204 audio codec (CM5 only)
+ .
+ This package provides a complete Distiller installation for Raspberry Pi CM5
+ hardware.
+
+Package: distiller-genesis-rockchip
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: distiller-genesis-common (= ${binary:Version})
+Description: Complete Distiller stack for Rockchip platforms
+ Platform-specific meta-package for Rockchip-based devices:
+  - Radxa Zero 3/3W (RK3566)
+  - ArmSom CM5 IO (RK3576)
+ .
+ Depends on distiller-genesis-common which includes all necessary drivers
+ and services for Rockchip platforms.
+ .
+ This package provides a complete Distiller installation for Rockchip-based
+ hardware.

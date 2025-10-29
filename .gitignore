@@ -10,13 +10,14 @@ debian/.debhelper/
 debian/debhelper-build-stamp
 debian/files
 debian/tmp/
-debian/distiller-genesis/
+debian/distiller-genesis-common/
+debian/distiller-genesis-cm5/
+debian/distiller-genesis-rockchip/
 debian/*.debhelper.log
 debian/*.substvars
 
 # Build directories
-build-area/
-../build-area/
+dist/
 
 # Git-buildpackage
 .gbp/
@@ -32,10 +33,3 @@ build-area/
 # OS files
 .DS_Store
 Thumbs.db
-
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.venv/
-venv/

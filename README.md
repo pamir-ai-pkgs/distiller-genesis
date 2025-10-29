@@ -1,114 +1,217 @@
 # distiller-genesis
 
-Genesis meta-package for the Distiller CM5 platform.
+Meta-package for complete Distiller platform installation on ARM64 hardware (Raspberry Pi CM5, Radxa Zero 3/3W, ArmSom CM5 IO).
 
 ## Overview
 
-This meta-package provides a convenient way to install various components for the Distiller CM5 platform. As a true meta-package, it primarily pulls in recommended dependencies without forcing their installation.
+`distiller-genesis` is a **Debian meta-package** that simplifies installation of the complete Distiller software stack. It contains no executable code - only dependency declarations that automatically pull in all required packages for a working Distiller system.
 
-The package can be used to install random stuff as needed - dependencies can be added to the Recommends or Suggests fields in debian/control.
+**Key Features**:
+- Single-command installation of entire Distiller platform
+- Platform-specific variants for optimized hardware support
+- Flexible package management (remove/reinstall components individually)
+- Uses recommendations rather than hard dependencies for user control
+- Hierarchical package structure for common + platform-specific components
 
-## Package Structure
+## Package Variants
+
+Three packages are available to match your hardware platform:
+
+| Package | Target Hardware | Additional Drivers |
+|---------|----------------|-------------------|
+| `distiller-genesis-cm5` | Raspberry Pi CM5 (BCM2712) | TLV320AIC3204 audio codec |
+| `distiller-genesis-rockchip` | Radxa Zero 3/3W (RK3566)<br>ArmSom CM5 IO (RK3576) | None (uses common drivers) |
+| `distiller-genesis-common` | Base stack (all platforms) | Universal components only |
+
+**Platform Selection Guide**:
+- **Raspberry Pi CM5**: Install `distiller-genesis-cm5`
+- **Radxa Zero 3/3W or ArmSom CM5 IO**: Install `distiller-genesis-rockchip`
+- **Custom/Development**: Install `distiller-genesis-common` + manually select drivers
+
+## Package Hierarchy
 
 ```
-debian/
-├── control              # Package metadata and dependencies
-├── copyright            # License information
-├── rules                # Build rules (makefile)
-├── changelog            # Version history
-├── compat               # Debhelper compatibility level
-├── gbp.conf             # git-buildpackage configuration
-├── preinst              # Pre-installation script
-├── postinst             # Post-installation script
-├── prerm                # Pre-removal script
-├── postrm               # Post-removal script
-├── distiller-genesis.lintian-overrides  # Lintian override rules
-├── distiller-genesis.install        # File installation rules
-└── source/
-    └── format           # Source package format
-```
-
-## Building the Package
-
-### Prerequisites
-
-```bash
-sudo apt-get install debhelper git-buildpackage lintian
-```
-
-### Build Commands
-
-```bash
-# Build binary package
-dpkg-buildpackage -us -uc -b
-
-# Build with git-buildpackage
-gbp buildpackage
-
-# Check with lintian
-lintian -I --show-overrides ../distiller-genesis_*.deb
+distiller-genesis-cm5 (or distiller-genesis-rockchip)
+    │
+    ├── distiller-genesis-common
+    │   ├── distiller-sdk              # Hardware SDK (Audio, Camera, E-ink, ASR/TTS)
+    │   ├── distiller-services         # WiFi provisioning service
+    │   ├── distiller-update           # APT update notifications
+    │   ├── distiller-telemetry        # Device registration
+    │   ├── distiller-cc               # Claude Code extensions
+    │   ├── claude-code-web-manager    # Web-based Claude Code UI
+    │   ├── pamir-ai-sam-dkms          # SAM controller kernel driver
+    │   ├── distiller-migrator         # Migration tool
+    │   └── distiller-test-harness     # Test suite
+    │
+    └── pamir-ai-soundcard-dkms (CM5 only)
 ```
 
 ## Installation
 
+### Prerequisites
+
 ```bash
-sudo dpkg -i distiller-genesis_1.0.0_all.deb
-sudo apt-get install -f  # Install recommended dependencies
+# Update package index
+sudo apt-get update
+
+# Ensure APT can handle dependencies
+sudo apt-get install -f
+```
+
+### Install from Package Repository
+
+**For Raspberry Pi CM5**:
+```bash
+sudo apt-get install distiller-genesis-cm5
+```
+
+**For Radxa Zero 3/3W or ArmSom CM5 IO**:
+```bash
+sudo apt-get install distiller-genesis-rockchip
 ```
 
 ## What Gets Installed
 
-This meta-package recommends the following (not forced):
+### Core Components (All Platforms)
 
-- **distiller-cm5-sdk**: Hardware control and AI SDK
-- **Python 3**: Runtime environment and pip
-- **Development tools**: Build essentials, git
+| Package | Description | Installation Path |
+|---------|-------------|-------------------|
+| **distiller-sdk** | Hardware SDK with ASR/TTS, audio, camera, e-ink support | `/opt/distiller-sdk/` |
+| **distiller-services** | WiFi provisioning with mDNS and captive portal | `/opt/distiller-services/` |
+| **distiller-telemetry** | Device registration using MAC-based tokens | `/opt/distiller-telemetry/` |
+| **distiller-update** | APT update checker with DBus notifications | `/opt/distiller-update/` |
+| **distiller-cc** | Claude Code extensions (agents, commands, docs) | `~/.claude/` |
+| **claude-code-web-manager** | Web UI for Claude Code sessions | `/opt/claude-code-web-manager/` |
+| **pamir-ai-sam-dkms** | SAM controller kernel driver | Kernel modules |
+| **distiller-migrator** | Database and configuration migration tool | `/opt/distiller-migrator/` |
+| **distiller-test-harness** | pytest-based test suite (66+ tests) | `/opt/distiller-test-harness/` |
 
-Recommended packages can be installed independently or skipped as needed.
+### Platform-Specific Components
 
-## Adding Dependencies
+**Raspberry Pi CM5 Only**:
+- `pamir-ai-soundcard-dkms`: TLV320AIC3204 audio codec driver (BCM2712-specific)
 
-To add more packages to be installed:
+## Build from Source
 
-1. Edit `debian/control`
-2. Add to `Recommends:` for suggested installations
-3. Add to `Suggests:` for optional installations
-4. Rebuild the package
+### Build Requirements
 
-## Maintainer Scripts
+```bash
+sudo apt-get install build-essential debhelper debhelper-compat just
+```
 
-All maintainer scripts are minimal for a meta-package:
+### Build Process
 
-- **preinst**: No operations (placeholder)
-- **postinst**: Simple notification message
-- **prerm**: No operations (placeholder)
-- **postrm**: Simple removal notification
+```bash
+# Clone repository
+git clone https://github.com/pamir-ai-pkgs/distiller-genesis.git
+cd distiller-genesis
 
-Removing this package will NOT remove installed dependencies.
+# Build all three packages
+just build
+
+# Output: dist/*.deb
+# - distiller-genesis-common_<version>_all.deb
+# - distiller-genesis-cm5_<version>_all.deb
+# - distiller-genesis-rockchip_<version>_all.deb
+```
+
+### Justfile Commands
+
+```bash
+just --list          # Show available commands
+just clean           # Remove build artifacts
+just build           # Build all three .deb packages (arch=all)
+just changelog       # Update version (dch -i)
+```
+
+### Install Locally Built Package
+
+```bash
+# Install platform-specific variant
+sudo dpkg -i dist/distiller-genesis-cm5_*.deb        # For CM5
+sudo dpkg -i dist/distiller-genesis-rockchip_*.deb   # For Rockchip
+
+# Resolve dependencies
+sudo apt-get install -f
+```
+
+## Customizing Your Installation
+
+The meta-package uses recommendations (`Recommends:`) to allow flexible package management:
+
+### Removing Individual Components
+
+```bash
+# Remove a specific service
+sudo apt remove distiller-services
+
+# Meta-package stays installed
+dpkg -l | grep distiller-genesis
+```
+
+### Restoring Removed Components
+
+```bash
+# Reinstall meta-package to restore missing components
+sudo apt install --reinstall distiller-genesis-cm5
+
+# APT automatically reinstalls recommended packages
+```
+
+### Minimal Installation
+
+```bash
+# Install only meta-package without components (rare use case)
+sudo apt install --no-install-recommends distiller-genesis-cm5
+
+# Manually install only desired components
+sudo apt install distiller-sdk distiller-services
+```
 
 ## Development
 
-### Updating the Package
-
-1. Edit files in `debian/` as needed
-2. Update `debian/changelog` with new version
-3. Rebuild the package
-4. Test installation/upgrade/removal
-
-### Version Management
+This meta-package is part of the Google Repo-managed Distiller ecosystem. For development workflows:
 
 ```bash
-# Update changelog for new version
-dch -i
+# Initialize multi-repository workspace
+repo init -u https://github.com/pamir-ai-pkgs/manifest.git
+repo sync
 
-# Commit changes
-git add debian/
-git commit -m "Update meta-distiller to version X.Y.Z"
+# Make changes to individual packages
+cd ../distiller-sdk
+just build && sudo dpkg -i dist/*.deb
 
-# Tag release
-git tag -a vX.Y.Z -m "Release X.Y.Z"
+# Update meta-package dependencies (in distiller-genesis/)
+cd ../distiller-genesis
+vim debian/control               # Edit Depends: field
+just changelog                   # Update version
+just build                       # Rebuild meta-package
+```
+
+See [parent CLAUDE.md](../CLAUDE.md) for complete multi-repository development guide.
+
+## Version Management
+
+```bash
+# Update changelog and version
+just changelog                   # Interactive (dch -i)
+
+# Manual version update
+dch -v 1.1.0                     # Set specific version
+dch -a "Added new-package to dependencies"  # Add entry
+
+# Check current version
+dpkg-parsechangelog --show-field Version
 ```
 
 ## License
 
-MIT License - See debian/copyright for full text
+MIT License - Copyright 2025 PamirAI Incorporated
+
+See [debian/copyright](debian/copyright) for full license text.
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/pamir-ai-pkgs/distiller-genesis/issues)
+- **Email**: support@pamir.ai

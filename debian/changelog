@@ -1,9 +1,7 @@
 distiller-genesis (1.0.0) unstable; urgency=medium
 
-  * Initial release of distiller-genesis meta-package
-  * Complete Distiller CM5 software stack installation
-  * Includes all hardware drivers (DKMS modules)
-  * System services and management tools
-  * Migration support via distiller-migrator
+  * Initial release
+  * Convert Depends to Recommends for flexible package management
+  * Allow individual component removal without meta-package cascade
 
- -- Distiller Team <maintainer@distiller.local>  Fri, 24 Oct 2025 00:00:00 +0000
+ -- PamirAI Incorporated <founders@pamir.ai>  Fri, 24 Oct 2025 00:00:00 +0000

@@ -1,8 +1,0 @@
-# Installation file for distiller-genesis
-# Format: source destination
-#
-# Meta-packages typically install no files
-# Example (uncomment if you add files to install):
-# usr/bin/* usr/bin/
-# etc/distiller/* etc/distiller/
-# usr/share/doc/distiller-genesis/* usr/share/doc/distiller-genesis/
