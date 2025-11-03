@@ -17,9 +17,9 @@ Recommends: distiller-sdk (>= 3.0.0),
             distiller-update (>= 3.0.0),
             distiller-telemetry (>= 4.0.0),
             distiller-cc (>= 4.0.0),
-            claude-code-web-manager,
             pamir-ai-sam-dkms,
-            distiller-platform-update
+            distiller-platform-update,
+            claude-code-web-manager
 Suggests: distiller-test-harness (>= 1.0.0)
 Description: Common meta-package for Distiller platform
  This meta-package provides the base Distiller software stack that works
