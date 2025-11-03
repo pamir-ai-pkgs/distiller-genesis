@@ -1,3 +1,10 @@
+distiller-genesis (1.0.1) unstable; urgency=medium
+
+  [ utsavbalar1231 ]
+  * fix(debian): install distiller-platform-update before claude-code-web-manager
+
+ -- PamirAI Incorporated <founders@pamir.ai>  Tue, 04 Nov 2025 01:27:34 +0530
+
 distiller-genesis (1.0.0) unstable; urgency=medium
 
   * Initial release
