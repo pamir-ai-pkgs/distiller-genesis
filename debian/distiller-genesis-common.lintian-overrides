@@ -1,0 +1,4 @@
+# Meta-package contains no files
+distiller-genesis-common: empty-binary-package
+# Changelog line length acceptable for commit messages
+distiller-genesis-common: debian-changelog-line-too-long
