@@ -1,3 +1,12 @@
+distiller-genesis (1.0.2) unstable; urgency=medium
+
+  [ utsavbalar1231 ]
+  * chore(debian): add lintian overrides for meta-packages
+  * build(debian): enable security hardening flags
+  * refactor(build): modernize Justfile with gbp integration
+
+ -- PamirAI Incorporated <founders@pamir.ai>  Wed, 05 Nov 2025 02:46:00 +0530
+
 distiller-genesis (1.0.1) unstable; urgency=medium
 
   [ utsavbalar1231 ]
