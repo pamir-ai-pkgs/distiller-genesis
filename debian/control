@@ -14,10 +14,12 @@ Architecture: all
 Depends: ${misc:Depends}
 Conflicts: distiller-cm5-sdk,
            distiller-cm5-services,
+           distiller-test-harness,
            linux-headers-6.1.0-40-arm64,
            linux-headers-arm64
 Replaces: distiller-cm5-sdk,
-          distiller-cm5-services
+          distiller-cm5-services,
+          distiller-test-harness
 Recommends: distiller-sdk (>= 3.0.0),
             distiller-services (>= 3.0.0),
             distiller-update (>= 3.0.0),
@@ -26,7 +28,7 @@ Recommends: distiller-sdk (>= 3.0.0),
             pamir-ai-sam-dkms,
             distiller-platform-update,
             claude-code-web-manager
-Suggests: distiller-test-harness (>= 1.0.0)
+Suggests:
 Description: Common meta-package for Distiller platform
  This meta-package provides the base Distiller software stack that works
  across all supported hardware platforms (Raspberry Pi CM5, Radxa Zero 3/3W,
