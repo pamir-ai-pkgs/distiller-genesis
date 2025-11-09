@@ -12,11 +12,17 @@ Rules-Requires-Root: no
 Package: distiller-genesis-common
 Architecture: all
 Depends: ${misc:Depends}
+Conflicts: distiller-cm5-sdk,
+           distiller-cm5-services,
+           linux-headers-6.1.0-40-arm64,
+           linux-headers-arm64
+Replaces: distiller-cm5-sdk,
+          distiller-cm5-services
 Recommends: distiller-sdk (>= 3.0.0),
             distiller-services (>= 3.0.0),
             distiller-update (>= 3.0.0),
             distiller-telemetry (>= 4.0.0),
-            distiller-cc (>= 4.0.0),
+            distiller-cc (>= 5.0.0),
             pamir-ai-sam-dkms,
             distiller-platform-update,
             claude-code-web-manager
@@ -34,9 +40,9 @@ Description: Common meta-package for Distiller platform
 
 Package: distiller-genesis-cm5
 Architecture: all
-Depends: ${misc:Depends}
-Recommends: distiller-genesis-common (= ${binary:Version}),
-            pamir-ai-soundcard-dkms
+Depends: ${misc:Depends},
+         distiller-genesis-common (= ${binary:Version}),
+Recommends: pamir-ai-soundcard-dkms
 Description: Complete Distiller stack for Raspberry Pi CM5
  Platform-specific meta-package for Raspberry Pi Compute Module 5 (BCM2712).
  .
@@ -48,8 +54,9 @@ Description: Complete Distiller stack for Raspberry Pi CM5
 
 Package: distiller-genesis-rockchip
 Architecture: all
-Depends: ${misc:Depends}
-Recommends: distiller-genesis-common (= ${binary:Version})
+Depends: ${misc:Depends},
+         distiller-genesis-common (= ${binary:Version})
+Recommends:
 Description: Complete Distiller stack for Rockchip platforms
  Platform-specific meta-package for Rockchip-based devices:
   - Radxa Zero 3/3W (RK3566)
