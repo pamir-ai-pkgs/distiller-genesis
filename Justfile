@@ -1,7 +1,7 @@
 default:
     @just --list
 
-build arch="all":
+build arch="arm64":
     #!/usr/bin/env bash
     set -e
     export DEB_BUILD_OPTIONS="parallel=$(nproc)"
