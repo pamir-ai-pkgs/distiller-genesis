@@ -12,11 +12,6 @@ Rules-Requires-Root: no
 Package: distiller-genesis-common
 Architecture: all
 Depends: ${misc:Depends}
-Conflicts: distiller-cm5-sdk,
-           distiller-cm5-services,
-           distiller-test-harness,
-           linux-headers-6.1.0-40-arm64,
-           linux-headers-arm64
 Replaces: distiller-cm5-sdk,
           distiller-cm5-services,
           distiller-test-harness
