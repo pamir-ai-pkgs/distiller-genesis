@@ -1,3 +1,16 @@
+distiller-genesis (1.0.3) unstable; urgency=medium
+
+  [ utsavbalar1231 ]
+  * feat(debian): add migration support and fix dependency structure
+  * build(just): change default architecture to all
+  * docs(claude): refactor documentation structure
+  * chore(debian): deprecate distiller-test-harness
+  * fix(build): target arm64 architecture in build
+  * fix(debian): correct malformed Depends field in distiller-genesis-cm5
+  * fix(debian): remove Conflicts declarations breaking APT recommendations
+
+ -- PamirAI Incorporated <founders@pamir.ai>  Thu, 13 Nov 2025 01:57:30 +0530
+
 distiller-genesis (1.0.2) unstable; urgency=medium
 
   [ utsavbalar1231 ]
