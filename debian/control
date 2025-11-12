@@ -43,7 +43,7 @@ Description: Common meta-package for Distiller platform
 Package: distiller-genesis-cm5
 Architecture: all
 Depends: ${misc:Depends},
-         distiller-genesis-common (= ${binary:Version}),
+         distiller-genesis-common (= ${binary:Version})
 Recommends: pamir-ai-soundcard-dkms
 Description: Complete Distiller stack for Raspberry Pi CM5
  Platform-specific meta-package for Raspberry Pi Compute Module 5 (BCM2712).
